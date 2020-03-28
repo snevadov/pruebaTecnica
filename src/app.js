@@ -1,17 +1,6 @@
 //npm install swapi-node
 const swapi = require('swapi-node');
 
-// swapi.getPerson(1).then((result) => {
-//     console.log(result);
-// });
-
-let starwars = [];
-
-// swapi.get('https://swapi.co/api/films').then((result) => {
-//     console.log(result.results);
-// });
-
-
 //Función para conectar a la API
 function getDataStarWars(url, callback){
     swapi.get(url).then((result) => {
@@ -38,16 +27,6 @@ function getInfoPeliculas(informacionSW,callback){
         pelicula.actoresSW = peliculaSW.characters;
         pelicula.actores = [];
         pelicula.nave = [];
-
-        //Obtengo actores de la película
-        // getInfoPlanetas(peliculaSW.planets, function(planetas){
-        //     pelicula.planetas = planetas;
-        // });
-
-        //Obtengo actores de la película
-        // getInfoActores(peliculaSW.characters, function(actores){
-        //     pelicula.actores = actores;
-        // });
 
         //Agrego la película al array
         peliculas.push(pelicula);
@@ -108,20 +87,24 @@ function getInfoActores(actoresSW, callback){
 
             //console.log(actorSW);
             getDataStarWars(actorSW, function(infoActorSW){
-                //Defino propiedades
-                actor.url = actorSW;
-                actor.nombre = infoActorSW.name;
-                actor.genero = infoActorSW.gender;
-                actor.colorCabello = infoActorSW.hair_color;
-                actor.colorPiel = infoActorSW.skin_color;
-                actor.colorOjos = infoActorSW.eye_color;
-                actor.estatura = infoActorSW.height;
-                actor.planetaOrigen = infoActorSW.homeworld;
-
-                //Agrego el planeta al array
-                actores.push(actor);
-
-                if (index === array.length -1) resolve();
+                getDataStarWars(infoActorSW.homeworld, function(infoPlanetaOrigenSW){
+                    //Defino propiedades
+                    //Defino propiedades
+                    actor.url = actorSW;
+                    actor.nombre = infoActorSW.name;
+                    actor.genero = infoActorSW.gender;
+                    actor.colorCabello = infoActorSW.hair_color;
+                    actor.colorPiel = infoActorSW.skin_color;
+                    actor.colorOjos = infoActorSW.eye_color;
+                    actor.estatura = infoActorSW.height;
+                    actor.planetaOrigenURL = infoActorSW.homeworld;
+                    actor.planetaOrigen = infoPlanetaOrigenSW.name;
+    
+                    //Agrego el planeta al array
+                    actores.push(actor);
+    
+                    if (index === array.length -1) resolve();
+                });
             });
         });
     });
