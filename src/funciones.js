@@ -88,8 +88,8 @@ function getInfoActores(actoresSW, callback){
 
             //console.log(actorSW);
             getDataStarWars(actorSW, function(infoActorSW){
-                getDataStarWars(infoActorSW.homeworld, function(infoPlanetaOrigenSW){
-                    //Defino propiedades
+                
+                getNombrePlanetaOrigen(infoActorSW.homeworld, function(infoOrigen){
                     //Defino propiedades
                     actor.url = actorSW;
                     actor.nombre = infoActorSW.name;
@@ -98,12 +98,13 @@ function getInfoActores(actoresSW, callback){
                     actor.colorPiel = infoActorSW.skin_color;
                     actor.colorOjos = infoActorSW.eye_color;
                     actor.estatura = infoActorSW.height;
-                    actor.planetaOrigenURL = infoActorSW.homeworld;
-                    actor.planetaOrigen = infoPlanetaOrigenSW.name;
-    
+                    actor.planetaOrigen = infoOrigen;
+                    //actor.planetaOrigen = infoPlanetaOrigenSW.name;
+                    actor.especiesSW = infoActorSW.species;
+
                     //Agrego el planeta al array
                     actores.push(actor);
-    
+
                     if (index === array.length -1) resolve();
                 });
             });
@@ -152,11 +153,14 @@ function getInfoNaves(navesSW, callback){
     
 }
 
+//Función para ordenamiento de objetos de mayor a menor
 function compareTamano(naveA,naveB) {
+    //Convierto a números los tamaños, validando que sea váido.
     const tamanioA = (!parseFloat(naveA.tamano)) ? -1 : parseFloat(naveA.tamano);
     const tamanioB = (!parseFloat(naveB.tamano)) ? -1 : parseFloat(naveB.tamano);
     let comparison = 0;
 
+    //Realizo la comparación para definir el orden
     if (tamanioA >= tamanioB) {
         comparison = -1;
     } else if (tamanioA < tamanioB) {
@@ -169,12 +173,65 @@ function compareTamano(naveA,naveB) {
 //Funcion para ordenar las naves
 function getNaveMayor(navesSW, callback){
 
+    //Obtengo las naves
     getInfoNaves(navesSW, function(naves){
+        //Ordeno las naves de mayor a menor
         naves.sort(compareTamano);
 
+        //Obtengo la mayor de las naves, que sería la primera
         callback(naves[0]);
     });
 }
+
+//Función para obtener la 
+function getInfoEspecie(especiesSW, callback){
+    //Arreglo de especies
+    let especies = [];
+
+    //Promesa para recorrer el array y finalizar cuando termine de recorrerlo
+    var bar = new Promise((resolve, reject) => {
+        especiesSW.forEach((especieSW, index, array) => {
+            //Defino un objeto para los naves
+            let especie = new Object();
+
+            //console.log(especieSW);
+            getDataStarWars(especieSW, function(infoEspecieSW){
+                
+                //Defino propiedades
+                especie.url = especieSW;
+                especie.nombre = infoEspecieSW.name;
+                especie.idioma = infoEspecieSW.language;
+                especie.estaturaPromedio = infoEspecieSW.average_height;
+
+                //Agrego el nave al array
+                especies.push(especie);
+
+                if (index === array.length -1) resolve();
+            });
+        });
+    });
+    
+    bar.then(() => {
+        callback(especies);
+    });
+    
+}
+
+//Función para obtener nombre del planeta de origen
+function getNombrePlanetaOrigen(planetaSW, callback){
+    //Arreglo de especies
+    let especies = [];
+
+    //console.log(especieSW);
+    getDataStarWars(planetaSW, function(infoPlanetaSW){
+                
+        //Devuelvo el nombre
+        callback(infoPlanetaSW.name);
+
+    });
+    
+}
+
 
 module.exports = {
 	getDataStarWars,
@@ -182,5 +239,7 @@ module.exports = {
 	getInfoPlanetas,
     getInfoActores,
     getInfoNaves,
-    getNaveMayor
+    getNaveMayor,
+    getInfoEspecie,
+    getNombrePlanetaOrigen
 }

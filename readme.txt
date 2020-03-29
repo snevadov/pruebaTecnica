@@ -1,1 +1,2 @@
-Prueba Ténica
+Prueba Tï¿½nica
+Para correr, node src/app

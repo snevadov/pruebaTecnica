@@ -1,5 +1,6 @@
 //Importo archivo de funciones
 const funciones = require('./funciones');
+const fs = require('fs');
 
 //Inicio la ejecución
 function runApi(callback){
@@ -57,85 +58,3 @@ function runApi(callback){
 runApi(function(resultado){
 	console.log(resultado);
 })
-
-//-------------------------------------- PRUEBAS PROMESAS
-
-// //Inicio la ejecución
-// function runApi2(callback){
-//     urlPeliculas = 'https://swapi.co/api/films';
-//     let actoresSW = [
-//         'https://swapi.co/api/people/1/',
-//         'https://swapi.co/api/people/3/',
-//         'https://swapi.co/api/people/5/',
-//         'https://swapi.co/api/people/13/',
-//         'https://swapi.co/api/people/14/',
-//         'https://swapi.co/api/people/27/',
-//         'https://swapi.co/api/people/84/',
-//         'https://swapi.co/api/people/85/',
-//         'https://swapi.co/api/people/86/',
-//         'https://swapi.co/api/people/87/',
-//         'https://swapi.co/api/people/88/' 
-//     ];
-
-//     let actores = [];
-
-//     var bar = new Promise((resolve, reject) => {
-//         actoresSW.forEach((actorSW, index, array) => {
-//             //Defino un objeto para los planetas
-//             let actor = new Object();
-
-//             //console.log(actorSW);
-//             getDataStarWars(actorSW, function(infoActorSW){
-//                 //Defino propiedades
-//                 actor.url = actorSW;
-//                 actor.nombre = infoActorSW.name;
-//                 actor.genero = infoActorSW.gender;
-//                 actor.colorCabello = infoActorSW.hair_color;
-//                 actor.colorPiel = infoActorSW.skin_color;
-//                 actor.colorOjos = infoActorSW.eye_color;
-//                 actor.estatura = infoActorSW.height;
-//                 actor.planetaOrigen = infoActorSW.homeworld;
-
-//                 //Agrego el planeta al array
-//                 actores.push(actor);
-
-//                 if (index === array.length -1) resolve();
-//             });
-//         });
-//     });
-    
-//     bar.then(() => {
-//         //console.log('actores');
-//         callback(actores);
-//     });
-// }
-
-// runApi2(function(resultado){
-// 	console.log(resultado);
-// })
-
-//---------------------- PRUEBA MAYOR
-// function runApi2(callback){
-//     urlPeliculas = 'https://swapi.co/api/films';
-//     let navesSW = [ 
-//         'https://swapi.co/api/starships/15/',
-//         'https://swapi.co/api/starships/10/',
-//         'https://swapi.co/api/starships/11/',
-//         'https://swapi.co/api/starships/12/',
-//         'https://swapi.co/api/starships/21/',
-//         'https://swapi.co/api/starships/22/',
-//         'https://swapi.co/api/starships/23/',
-//         'https://swapi.co/api/starships/3/',
-//         'https://swapi.co/api/starships/17/' 
-//     ];
-
-//     let actores = [];
-
-//     funciones.getNaveMayor(navesSW, function(navesOrder){
-//         callback(navesOrder);
-//     });
-// }
-
-// runApi2(function(resultado){
-// 	console.log(resultado);
-// })
