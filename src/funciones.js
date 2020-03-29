@@ -26,7 +26,8 @@ function getInfoPeliculas(informacionSW,callback){
         pelicula.planetas = [];
         pelicula.actoresSW = peliculaSW.characters;
         pelicula.actores = [];
-        pelicula.nave = [];
+        pelicula.navesSW = peliculaSW.starships;
+        pelicula.nave = new Object();
 
         //Agrego la película al array
         peliculas.push(pelicula);
@@ -115,9 +116,72 @@ function getInfoActores(actoresSW, callback){
     });
 }
 
+//Función para obtener naves
+function getInfoNaves(navesSW, callback){
+    //Arreglo de naves
+    let naves = [];
+
+    //Promesa para recorrer el array y finalizar cuando termine de recorrerlo
+    var bar = new Promise((resolve, reject) => {
+        navesSW.forEach((naveSW, index, array) => {
+            //Defino un objeto para los naves
+            let nave = new Object();
+
+            //console.log(naveSW);
+            getDataStarWars(naveSW, function(infoNaveSW){
+                
+                //Defino propiedades
+                nave.url = naveSW;
+                nave.nombre = infoNaveSW.name;
+                nave.modelo = infoNaveSW.model;
+                nave.tamano = infoNaveSW.length;
+                nave.fabricante = infoNaveSW.manufacturer;
+                nave.numeroPasajeros = infoNaveSW.passengers;
+
+                //Agrego el nave al array
+                naves.push(nave);
+
+                if (index === array.length -1) resolve();
+            });
+        });
+    });
+    
+    bar.then(() => {
+        callback(naves);
+    });
+    
+}
+
+function compareTamano(naveA,naveB) {
+    const tamanioA = parseFloat(naveA.tamano);
+    const tamanioB = parseFloat(naveB.tamano);
+    let comparison = 0;
+
+    if (tamanioA >= tamanioB) {
+        comparison = -1;
+    } else if (tamanioA < tamanioB) {
+        comparison = 1;
+    }
+    
+    return comparison;
+}
+
+//Funcion para ordenar las naves
+function getNaveMayor(navesSW, callback){
+    let navesOrdenadas = [];
+
+    getInfoNaves(navesSW, function(naves){
+        naves.sort(compareTamano);
+
+        callback(naves[0]);
+    });
+}
+
 module.exports = {
 	getDataStarWars,
 	getInfoPeliculas,
 	getInfoPlanetas,
-	getInfoActores
+    getInfoActores,
+    getInfoNaves,
+    getNaveMayor
 }

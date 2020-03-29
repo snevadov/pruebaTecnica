@@ -51,10 +51,10 @@ function runApi(callback){
 
 //llamo la función
 runApi(function(resultado){
-	console.log(resultado[3]);
+	console.log(resultado);
 })
 
-//-------------------------------------- PRUEBA
+//-------------------------------------- PRUEBAS PROMESAS
 
 // //Inicio la ejecución
 // function runApi2(callback){
@@ -103,6 +103,32 @@ runApi(function(resultado){
 //     bar.then(() => {
 //         //console.log('actores');
 //         callback(actores);
+//     });
+// }
+
+// runApi2(function(resultado){
+// 	console.log(resultado);
+// })
+
+//---------------------- PRUEBA MAYOR
+// function runApi2(callback){
+//     urlPeliculas = 'https://swapi.co/api/films';
+//     let navesSW = [ 
+//         'https://swapi.co/api/starships/15/',
+//         'https://swapi.co/api/starships/10/',
+//         'https://swapi.co/api/starships/11/',
+//         'https://swapi.co/api/starships/12/',
+//         'https://swapi.co/api/starships/21/',
+//         'https://swapi.co/api/starships/22/',
+//         'https://swapi.co/api/starships/23/',
+//         'https://swapi.co/api/starships/3/',
+//         'https://swapi.co/api/starships/17/' 
+//     ];
+
+//     let actores = [];
+
+//     funciones.getNaveMayor(navesSW, function(navesOrder){
+//         callback(navesOrder);
 //     });
 // }
 
