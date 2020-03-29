@@ -14,11 +14,15 @@ function runApi(callback){
             var bar = new Promise((resolve, reject) => {
                 peliculas.forEach((pelicula, index, array) => {       
                     //console.log(actorSW);
-                    funciones.getInfoPlanetas(pelicula.planetasSW, function(infoPlanetaSW){
-                        //Defino propiedades
-                        pelicula.planetas = infoPlanetaSW;
-        
-                        if (index === array.length -1) resolve();
+                    funciones.getNaveMayor(pelicula.navesSW, function(naveMayor){
+                        pelicula.nave = naveMayor;
+
+                        funciones.getInfoPlanetas(pelicula.planetasSW, function(infoPlanetaSW){
+                            //Defino propiedades
+                            pelicula.planetas = infoPlanetaSW;
+            
+                            if (index === array.length -1) resolve();
+                        });
                     });
                 });
             });
