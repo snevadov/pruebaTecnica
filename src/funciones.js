@@ -153,8 +153,8 @@ function getInfoNaves(navesSW, callback){
 }
 
 function compareTamano(naveA,naveB) {
-    const tamanioA = parseFloat(naveA.tamano);
-    const tamanioB = parseFloat(naveB.tamano);
+    const tamanioA = (!parseFloat(naveA.tamano)) ? -1 : parseFloat(naveA.tamano);
+    const tamanioB = (!parseFloat(naveB.tamano)) ? -1 : parseFloat(naveB.tamano);
     let comparison = 0;
 
     if (tamanioA >= tamanioB) {
@@ -168,7 +168,6 @@ function compareTamano(naveA,naveB) {
 
 //Funcion para ordenar las naves
 function getNaveMayor(navesSW, callback){
-    let navesOrdenadas = [];
 
     getInfoNaves(navesSW, function(naves){
         naves.sort(compareTamano);
